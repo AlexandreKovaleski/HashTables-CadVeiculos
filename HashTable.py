@@ -52,7 +52,7 @@ class HashTable:
         if self.keys[indicehash] == key:
             self.keys[indicehash] = 'empty'
             self.values[indicehash] = 'empty'  #replace
-            print("Placa " + key + ", removido com sucesso!\n")
+            print("Placa " + key + ", removida com sucesso!\n")
 
         else: #aqui faz a sondagem linear
             nextslot = self.rehash(indicehash,len(self.keys))
@@ -62,9 +62,9 @@ class HashTable:
             if self.keys[nextslot] == key:
                 self.keys[nextslot] = 'empty'
                 self.values[nextslot] = 'empty'
-                print("Item " + key + ", removido com sucesso!\n")
+                print("Placa " + key + ", removida com sucesso!\n")
             else:
-                print("Não foi possível encontrar o índice da chave informada e removê-lo!\n")
+                print("Não foi possível encontrar a placa e removê-la!\n")
     
 
     def get(self, key):
@@ -98,25 +98,4 @@ class HashTable:
                 if item != None and item != 'empty':
                     print("[{}] = {}".format(item, self.get(item)))
                 elif item == None:
-                    print("[{}] = {}".format(item, item))   
-        
-"""
-Nesta implementação, cada entrada na tabela hash contém uma chave, um valor e um indicador de exclusão, que é 
-definido como False quando a entrada é criada e é definido como True quando a entrada é removida.
-
-A função de hash utiliza o método de divisão para calcular o índice da chave. 
-Se a posição correspondente estiver vazia, a chave e o valor são inseridos diretamente. 
-Caso contrário, a tabela hash usa sondagem linear para encontrar a próxima posição vazia na tabela. 
-Quando ocorre uma colisão, a nova entrada é adicionada na próxima posição disponível na tabela.
-
-A função search usa sondagem linear para encontrar o valor associado à chave fornecida. 
-A função delete define o indicador de exclusão como True quando a chave correspondente é encontrada. 
-Com isso, a entrada não é realmente removida da tabela, mas é marcada como excluída. Isso é conhecido como lazy deletion.
-Nesta implementação, foram adicionados os métodos set, get, e put, que são equivalentes para inserir e atualizar um par 
-chave-valor na tabela. A função get retorna o valor associado à chave fornecida, enquanto a função set e put inserem ou 
-atualizam um par chave-valor na tabela. A função search é utilizada para buscar o valor associado à chave fornecida, 
-e a função delete é utilizada para remover o par chave-valor associado à chave fornecida, utilizando lazy deletion, 
-como na implementação anterior. Note que a função set na verdade redireciona para a função put, visto que é comum em 
-algumas linguagens utilizar set para definir um valor em uma tabela hash. A função get é usada para recuperar um valor 
-da tabela hash, e a função put é usada para inserir ou atualizar um valor na tabela hash. 
-"""
+                    print("[{}] = {}".format(item, item))
