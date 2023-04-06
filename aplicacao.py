@@ -28,7 +28,7 @@ while cadastro == True:
     os.system("cls") 
 
     if opcao == "1":
-        placa = input("Imforme a placa do veículo: ")
+        placa = input("Informe a placa do veículo: ")
         renavam = input("Informe o renavan do veiculo: ")
         marca = input("Informe a marca do veiculo: ")
         modelo = input("Informe o modelo do veículo: ")
@@ -46,4 +46,4 @@ while cadastro == True:
         
     if opcao == "2":
         placa = input("Informe a Placa: ")
-        print(hashtable.get(placa))
+        print(hashtable.__getitem__(placa))

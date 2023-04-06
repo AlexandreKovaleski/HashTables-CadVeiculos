@@ -6,33 +6,35 @@ class HashTable:
         self.deleted = [False] * self.size
 
     def put(self,key,data):
-        hashvalue = self.hashfunction(key,len(self.slots))
+        key = key.lower()
+        hashvalue = self.hashfunction(key,len(self.keys))
 
-        if self.slots[hashvalue] == None:
-            self.slots[hashvalue] = key
-            self.data[hashvalue] = data
+        if self.keys[hashvalue] == None:
+            self.keys[hashvalue] = key
+            self.values[hashvalue] = data
         else:
-            if self.slots[hashvalue] == key:
-                self.data[hashvalue] = data  #replace
+            if self.keys[hashvalue] == key:
+                self.values[hashvalue] = data  #replace
             else:
-                nextslot = self.rehash(hashvalue,len(self.slots))
-                while self.slots[nextslot] != None and \
-                                self.slots[nextslot] != key:
-                    nextslot = self.rehash(nextslot,len(self.slots))
+                nextslot = self.rehash(hashvalue,len(self.keys))
+                while self.keys[nextslot] != None and \
+                                self.keys[nextslot] != key:
+                    nextslot = self.rehash(nextslot,len(self.keys))
 
-            if self.slots[nextslot] == None:
-                self.slots[nextslot]=key
-                self.data[nextslot]=data
+            if self.keys[nextslot] == None:
+                self.keys[nextslot]=key
+                self.values[nextslot]=data
             else:
-                self.data[nextslot] = data #replace
+                self.values[nextslot] = data #replace
 
     def hashfunction(self,key,size):
-        return key%size
+        return ord(key.lower()[0]) % size
 
     def rehash(self,oldhash,size):
         return (oldhash+1)%size
 
     def search(self, key):
+        key = key.lower()
         """
         Retorna o valor associado à chave fornecida, se existir
         """
@@ -44,6 +46,7 @@ class HashTable:
         return None
 
     def delete(self, key):
+        key = key.lower()
         """
         Remove o par chave-valor associado à chave fornecida, se existir
         """
@@ -54,11 +57,30 @@ class HashTable:
                 return
             index = (index + 1) % self.size
 
+    def get(self, key):
+        key = key.lower()
+        startslot = self.hashfunction(key,len(self.keys))
+
+        data = None
+        stop = False
+        found = False
+        position = startslot
+        while self.keys[position] != None and  \
+                            not found and not stop:
+            if self.keys[position] == key:
+                found = True
+                data = self.values[position]
+            else: #se elemento não estiver na posicao ele faz o rehash para encontra-lo, assim como fez para posiciona-lo
+                position=self.rehash(position,len(self.keys))
+                if position == startslot: #se voltou a posicao inicial do hash ele vai parar
+                    stop = True
+        return data
+    
     def __getitem__(self,key):
         return self.get(key)
 
-    def __setitem__(self,key,dado):
-        self.put(key,dado)
+    def __setitem__(self, key, data):
+        self.put(key, data)
 """
 Nesta implementação, cada entrada na tabela hash contém uma chave, um valor e um indicador de exclusão, que é 
 definido como False quando a entrada é criada e é definido como True quando a entrada é removida.
@@ -71,8 +93,8 @@ Quando ocorre uma colisão, a nova entrada é adicionada na próxima posição d
 A função search usa sondagem linear para encontrar o valor associado à chave fornecida. 
 A função delete define o indicador de exclusão como True quando a chave correspondente é encontrada. 
 Com isso, a entrada não é realmente removida da tabela, mas é marcada como excluída. Isso é conhecido como lazy deletion.
-Nesta implementação, foram adicionados os métodos set, get, e put, que são equivalentes para inserir e atualizar um par c
-have-valor na tabela. A função get retorna o valor associado à chave fornecida, enquanto a função set e put inserem ou 
+Nesta implementação, foram adicionados os métodos set, get, e put, que são equivalentes para inserir e atualizar um par 
+chave-valor na tabela. A função get retorna o valor associado à chave fornecida, enquanto a função set e put inserem ou 
 atualizam um par chave-valor na tabela. A função search é utilizada para buscar o valor associado à chave fornecida, 
 e a função delete é utilizada para remover o par chave-valor associado à chave fornecida, utilizando lazy deletion, 
 como na implementação anterior. Note que a função set na verdade redireciona para a função put, visto que é comum em 
