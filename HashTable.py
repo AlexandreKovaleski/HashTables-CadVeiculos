@@ -6,7 +6,7 @@ class HashTable:
         self.deleted = [False] * self.size
 
     def put(self,key,data):
-        key = key.lower()
+        key = key.upper()
         hashvalue = self.hashfunction(key,len(self.keys))
 
         if self.keys[hashvalue] == None:
@@ -34,7 +34,7 @@ class HashTable:
         return (oldhash+1)%size
 
     def search(self, key):
-        key = key.lower()
+        key = key.upper()
         """
         Retorna o valor associado à chave fornecida, se existir
         """
@@ -46,19 +46,29 @@ class HashTable:
         return None
 
     def delete(self, key):
-        key = key.lower()
-        """
-        Remove o par chave-valor associado à chave fornecida, se existir
-        """
-        index = self.hash_function(key)
-        while self.keys[index] is not None:
-            if not self.deleted[index] and self.keys[index] == key:
-                self.deleted[index] = True
-                return
-            index = (index + 1) % self.size
+        key = key.upper()
+        indicehash = self.hashfunction(key,len(self.keys))
+
+        if self.keys[indicehash] == key:
+            self.keys[indicehash] = 'empty'
+            self.values[indicehash] = 'empty'  #replace
+            print("Placa " + key + ", removido com sucesso!\n")
+
+        else: #aqui faz a sondagem linear
+            nextslot = self.rehash(indicehash,len(self.keys))
+            while self.keys[nextslot] != None and self.keys[nextslot] != key:
+                nextslot = self.rehash(nextslot,len(self.keys))
+
+            if self.keys[nextslot] == key:
+                self.keys[nextslot] = 'empty'
+                self.values[nextslot] = 'empty'
+                print("Item " + key + ", removido com sucesso!\n")
+            else:
+                print("Não foi possível encontrar o índice da chave informada e removê-lo!\n")
+    
 
     def get(self, key):
-        key = key.lower()
+        key = key.upper()
         startslot = self.hashfunction(key,len(self.keys))
 
         data = None
@@ -81,6 +91,15 @@ class HashTable:
 
     def __setitem__(self, key, data):
         self.put(key, data)
+
+    def showAll(self):
+        for item in self.keys:            
+            if item != '':
+                if item != None and item != 'empty':
+                    print("[{}] = {}".format(item, self.get(item)))
+                elif item == None:
+                    print("[{}] = {}".format(item, item))   
+        
 """
 Nesta implementação, cada entrada na tabela hash contém uma chave, um valor e um indicador de exclusão, que é 
 definido como False quando a entrada é criada e é definido como True quando a entrada é removida.
