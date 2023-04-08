@@ -8,7 +8,7 @@ class Veiculo:
         self.anoFabr = anoFabr
     
     def __str__(self):
-        return '{} {} {} {} {} {}'.format(self.placa, self.renavam, self.marca, self.modelo, self.cor, self.anoFabr)
+        return 'Placa: {} \nRenavam: {} \nMarca: {} \nModelo: {} \nCor: {} \nAno de Fabricação: {}'.format(self.placa, self.renavam, self.marca, self.modelo, self.cor, self.anoFabr)
    
     def __repr__(self):
-        return '{} {} {} {} {} {}'.format(self.placa, self.renavam, self.marca, self.modelo, self.cor, self.anoFabr)
+        return 'Placa: {} \nRenavam: {} \nMarca: {} \nModelo: {} \nCor: {} \nAno de Fabricação: {}'.format(self.placa, self.renavam, self.marca, self.modelo, self.cor, self.anoFabr)

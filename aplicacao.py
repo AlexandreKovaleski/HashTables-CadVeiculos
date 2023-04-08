@@ -9,7 +9,10 @@ print("Bem Vindo ao Sistema de Cadastro de Placas - Tabela Hash \n"
     "Desenvolvido por Alexandre Kovaleski Fochi \n"
     "Disciplina de Estritura de Dados Avançada \n"
     "Prof. Me. Fahad Kalil \n\n")
-    
+
+time.sleep(5)
+os.system("cls")
+            
 hashtable = HashTable()
 
 cadastro = True
